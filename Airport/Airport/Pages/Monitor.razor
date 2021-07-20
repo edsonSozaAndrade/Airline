@@ -1,0 +1,86 @@
+﻿@page "/monitor"
+
+@using Airport.Services
+@using Airport.Models
+@inject DisplayManager DisplayManager
+
+<h1>New Event</h1>
+
+@if (arrivals == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Hour</th>
+                <th>Airline</th>
+                <th>Flight</th>
+                <th>From</th>
+                <th>Stimated Hour</th>
+                <th>Observation</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var arrival in arrivals)
+            {
+            <tr>
+                <td>@arrival.Hour</td>
+                <td>@arrival.Airline.Name</td>
+                <td>@arrival.IdFlight</td>
+                <td>@arrival.From</td>
+                <td>@arrival.StimatedHour</td>
+                <td>@arrival.Remark</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h1>Departures</h1>
+
+@if (departures == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Hour</th>
+                <th>Airline</th>
+                <th>Flight</th>
+                <th>From</th>
+                <th>Stimated Hour</th>
+                <th>Observation</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var departure in departures)
+            {
+                <tr>
+                    <td>@departure.Hour</td>
+                    <td>@departure.Airline.Name</td>
+                    <td>@departure.IdFlight</td>
+                    <td>@departure.To</td>
+                    <td>@departure.StimatedHour</td>
+                    <td>@departure.Observation</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<FlightEvent> arrivals;
+    private List<FlightEvent> departures;
+
+    protected override async Task OnInitializedAsync()
+    {
+        arrivals = await DisplayManager.GetFlyesByType(Enums.FlightType.Arrival);
+        departures = await DisplayManager.GetFlyesByType(Enums.FlightType.Departure);
+    }
+}

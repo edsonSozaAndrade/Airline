@@ -1,0 +1,14 @@
+﻿@page "/new"
+
+@using Airport.Services
+@using Airport.Models
+@inject DisplayManager DisplayManager
+
+<h3>New Flight Event</h3>
+<button @onclick="CreateEvent" class="btn btn-primary">Create new Event</button>
+@code {
+    async Task CreateEvent()
+    {
+        await DisplayManager.CreateNewEvent();
+    }
+}

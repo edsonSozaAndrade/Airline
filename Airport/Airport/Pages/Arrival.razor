@@ -1,0 +1,56 @@
+﻿@page "/arrivals"
+
+@using Airport.Services
+@using Airport.Models
+
+@inject DisplayManager DisplayManager
+
+<h1>Arrivals</h1>
+
+@if (events == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<table class="table" data-toggle="table"
+       data-height="460"
+       data-detail-view="true"
+       data-detail-formatter="detailFormatter"
+       data-url="json/data1.json">
+    <thead>
+        <tr>
+            <th>Hour</th>
+            <th>Airline</th>
+            <th>Flight</th>
+            <th>From</th>
+            <th>Stimated Hour</th>
+            <th>Observation</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var arrival in events)
+        {
+            <tr>
+                <td>@arrival.Hour</td>
+                <td>@arrival.Airline.Name</td>
+                <td>@arrival.IdFlight</td>
+                <td>@arrival.From</td>
+                <td>@arrival.StimatedHour</td>
+                <td>@arrival.Remark</td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+
+@code {
+    private List<FlightEvent> events;
+    [CascadingParameter] public IModalService Modal { get; set; }
+    string IdFlight;
+
+    protected override async Task OnInitializedAsync()
+    {
+        events = await DisplayManager.GetFlyesByType(Enums.FlightType.Arrival);
+    }
+}

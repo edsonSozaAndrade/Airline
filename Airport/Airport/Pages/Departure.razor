@@ -1,0 +1,49 @@
+﻿@page "/departures"
+
+@using Airport.Services
+@using Airport.Models
+@inject DisplayManager DisplayManager
+
+<h1>Departures</h1>
+
+@if (events == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Hour</th>
+                <th>Airline</th>
+                <th>Flight</th>
+                <th>To</th>
+                <th>Stimated Hour</th>
+                <th>Observation</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var departure in events)
+            {
+            <tr>
+                <td>@departure.Hour</td>
+                <td>@departure.Airline.Name</td>
+                <td>@departure.IdFlight</td>
+                <td>@departure.To</td>
+                <td>@departure.StimatedHour</td>
+                <td>@departure.Observation</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<FlightEvent> events;
+
+    protected override async Task OnInitializedAsync()
+    {
+        events = await DisplayManager.GetFlyesByType(Enums.FlightType.Departure);
+    }
+}

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Implementation\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazored.Modal" Version="6.0.1" />
+    <PackageReference Include="CsvHelper" Version="27.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\Data.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\NewData.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
